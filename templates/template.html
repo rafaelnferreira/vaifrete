@@ -5,31 +5,41 @@
   <meta http-equiv="X-UA-Compatible" content="IE=7" />
   <meta name="google-site-verification" content="InYBL3-Gs1Zyftpz-bFSjccFj3Gzkf-ZYDm_7HDqsdM" />
   <!--<link type="text/css" rel="stylesheet" href="/css/ie.css">-->
-  <link type="text/css" rel="stylesheet" href="/css/print.css">
-  <link type="text/css" rel="stylesheet" href="/css/screen.css">
-  <link type="text/css" rel="stylesheet" href="/css/custom.css">
-  <link type="text/css" rel="stylesheet" href="/css/menu.css">
-      
   <script type="text/javascript" src="/js/jquery.js"></script>
-  <script type="text/javascript" src="/js/menu.js"></script>
-  <script type="text/javascript" src="/js/jquery.fbmodel.js"></script>
-  <script type="text/javascript" src="/js/uiLogic.js"></script>
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+  <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+  <link href="/css/bootstrap.css" rel="stylesheet">
+  <link href="/css/starter-template.css" rel="stylesheet">
+   
   
   {%block meta%}{%endblock%}  
 </head>
-  <body {%block body_params%}{%endblock%}>
-    <div class="container">
-	<div class="top">
-	  Bem vindo {{ userLogged.nickname }} - <a href="{%url views.logout %}">logout</a>.	
-	</div>
+
+<body {%block body_params%}{%endblock%}>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      
+  <div class="container">
+
+      <div class="navbar-header">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
+        <a class="navbar-brand" href="#">Vai Frete</a>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Link</a></li>
+            <li><p class="white">Bem vindo {{ userLogged.nickname }} - <a href="{%url views.logout %}">logout</a>.</p></li>
+          </ul>
+        </div>
+      </div> 
+
+  </div>
+
+</div>
+
+ <div class="container">
 	
-        <div>
-            <div class="logo">
-		<img src="/images/logo.jpg" height="80px" width="150px"  />
-            </div>
-            <div class="search">
-		
-	    </div>
+	
+      
 	</div>
 	<br clear="all" />
 

@@ -1,4 +1,4 @@
-<table>    
+<table class="table table-striped">    
 {%for deliver in deliveries%}
     <tr>
     	<td>{{deliver.key.id}} </td>
@@ -6,9 +6,11 @@
         <td>{{deliver.item|escape}}</td>
         
         {% if deliver.state == 'Pendente' and deliver.offers > 0 %}
-      		<td><a href="#">{{deliver.offers}}</a></td>
+      		<td><p class="text-right"><button type="button" class="btn btn-danger"><a href="#">Ofertas {{deliver.offers}}</a></button></p></td>
+        {% elif deliver.state == 'Pendente' %}
+            <td><p class="text-right"><button type="button" class="btn btn-danger">Aguardando...</button></p></td>
     	{% else %}
-      		<td>{{deliver.state|escape}}</td>
+      		<td><p class="text-right"><button type="button" class="btn btn-waiting"><a href="#">Ver no Mapa</a></button></p></td>
     	{% endif %}
     </tr>
 {%endfor%}
