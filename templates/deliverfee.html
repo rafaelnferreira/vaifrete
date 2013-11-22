@@ -1,0 +1,17 @@
+{%extends "template.html"%}
+{%block body%}
+<br>
+<h3>Submeter requisicao</h3>
+
+<form action="/app/createDeliverFee" method="post">
+    <table>
+        {{form}}
+        <tr>
+            <td>
+                <input type="submit" value="Salvar">
+            </td>
+        </tr>
+    </table>
+</form>
+
+{%endblock%}
