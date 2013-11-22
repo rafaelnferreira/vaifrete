@@ -19,7 +19,7 @@ import datetime
 import logging
 import urllib2
 
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseBadRequest
@@ -193,6 +193,19 @@ def listOffers(request):
 
   return respond(request,users.GetCurrentUser(), 'listoffers', { 'offers' : offers })  
 
+def deliverCoordinates(request):
+  deliver_id = int(request.GET.get('deliverId', 0))
+  deliver = DeliverFee.get(db.Key.from_path(DeliverFee.kind(), deliver_id))
+  
+  if deliver is None:
+    return http.HttpResponseBadRequest('No Deliver exists with that key (%r)' %
+                                       deliver_id)
+
+  #ok, here we need to find the DeliveryOffer that is currently in progress, after the confirmation
+  q = db.GqlQuery("SELECT * FROM DeliverOffer WHERE deliver_fee = :1 AND state = 'Aceito' ")
+  offer = q.get()
+
+  return HttpResponse("{  }", content_type="application/jason")
 
 def create_offer_query(deliver):
   return db.GqlQuery("SELECT * "
