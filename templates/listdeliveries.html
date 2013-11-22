@@ -1,0 +1,15 @@
+<table>    
+{%for deliver in deliveries%}
+    <tr>
+    	<td>{{deliver.key.id}} </td>
+        <td>{{deliver.destination_address|escape}}</td>
+        <td>{{deliver.item|escape}}</td>
+        
+        {% if deliver.state == 'Pendente' and deliver.offers > 0 %}
+      		<td><a href="#">{{deliver.offers}}</a></td>
+    	{% else %}
+      		<td>{{deliver.state|escape}}</td>
+    	{% endif %}
+    </tr>
+{%endfor%}
+</table>

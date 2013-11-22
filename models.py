@@ -3,10 +3,13 @@ from google.appengine.ext import db
 
 class AppUser(db.Model):
   real_user = db.UserProperty()
+  user_email = db.StringProperty()
   vehicle = db.StringProperty()
   user_type = db.StringProperty()
   last_status = db.StringProperty()
   last_position = db.StringProperty()
+  last_lat = db.StringProperty()
+  last_lng = db.StringProperty()
 
 class DeliverFee(db.Model):
 	source_address = db.StringProperty()
@@ -19,3 +22,10 @@ class DeliverFee(db.Model):
 	source_lng = db.StringProperty()
 	dest_lat = db.StringProperty()
 	dest_lng = db.StringProperty()
+	state = db.StringProperty(default='Pendente')
+
+class DeliverOffer(db.Model):
+	deliver_fee = db.ReferenceProperty(DeliverFee)
+	app_user = db.ReferenceProperty(AppUser)
+	offer_info = db.TextProperty()
+	state = db.StringProperty(default='Pendente')

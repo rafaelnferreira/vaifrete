@@ -21,7 +21,7 @@ class AppUserForm(djangoforms.ModelForm):
   user_type = forms.TypedChoiceField(choices=UserTypes, initial='Usuario')
   class Meta:
     model = AppUser
-    exclude = ['last_status', 'last_position']
+    exclude = ['last_status', 'last_position', 'user_email']
 
 class DeliverFeeForm(djangoforms.ModelForm):
 	source_address = forms.CharField(label='Origem',widget=forms.TextInput(attrs={'size':'50','maxlength':'50'} ))
@@ -29,4 +29,4 @@ class DeliverFeeForm(djangoforms.ModelForm):
 	item = forms.CharField(label='Item',widget=forms.Textarea)
 	class Meta:
 		model = DeliverFee
-		exclude = ['dest_lng','dest_lat', 'source_lat', 'source_lng','request_user', 'item', 'request_date_time', 'closed']
+		exclude = ['dest_lng','dest_lat', 'source_lat', 'source_lng','request_user', 'item', 'request_date_time', 'closed', 'state']

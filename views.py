@@ -20,7 +20,9 @@ import logging
 import urllib2
 
 from google.appengine.ext import db
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.http import HttpResponseBadRequest
 from django.shortcuts import render_to_response
 
 from django import http
@@ -64,7 +66,10 @@ def respond(request, user, template, params=None):
   return shortcuts.render_to_response(template, params)
 
 def index(request):
-  return render_to_response('index.html')
+  if users.GetCurrentUser() is None:
+    return render_to_response('index.html')
+  else:
+    return HttpResponseRedirect('/app/welcome')  
 
 def login(request):
   return HttpResponseRedirect(users.create_login_url('/app/welcome'))  
@@ -124,20 +129,21 @@ def extractFromJson(parsed_map, param):
 
 def editUser(request):
   """Create or edit a User.  GET shows a pre filled form, POST processes it."""
-  app_users = get_app_user()
+  app_user = get_app_user()
   user = users.GetCurrentUser()
 
   #saves the user
   if request.method == 'POST':
     
     logging.debug('saving the user...')
-    app_user = app_users[0] if len(app_users) > 0 else None
+    #app_user = app_users[0] if len(app_users) > 0 else None
     form = AppUserForm(data=request.POST, instance=app_user)
     
     errors = form.errors
     if not errors:
       try:
         obj_save = form.save(commit=True)
+        obj_save.user_email = user.email()
         obj_save.put()
     
         return http.HttpResponseRedirect('/app/welcome')        
@@ -148,21 +154,91 @@ def editUser(request):
     if errors:
       return respond(request, user, 'signup', {'form' : form } )    
 
-  if (len(app_users) == 0):
+  if app_user is None:
     app_user = AppUser()
     app_user.real_user = user
-  else:
-    app_user = app_users[0]
   
   form = AppUserForm(data=None, instance=app_user)
   logging.debug ('Return the user..')
   return respond(request, user, 'signup', {'form' : form } )
-  
-def welcome(request):
-  app_users = get_app_user()
+
+def listDeliveries(request):
   user = users.GetCurrentUser()
 
-  if (len(app_users) == 0):
+  q =  db.GqlQuery("SELECT * "
+                          "FROM DeliverFee "
+                          "WHERE request_user = :1 ",
+                          user )
+
+  deliveries = q.fetch(100)
+
+  for deliver in deliveries:
+    #we get a count of requests that have been made to this guy...
+    if deliver.state is 'Pendente':
+      innerQuery = create_offer_query(deliver)
+      deliver.offers = innerQuery.count()
+
+  return respond(request,user, 'listdeliveries', { 'deliveries' : deliveries })
+
+def listOffers(request):
+  deliver_id = int(request.GET.get('deliverId', 0))
+  deliver = DeliverFee.get(db.Key.from_path(DeliverFee.kind(), deliver_id))
+  
+  if deliver is None:
+    return http.HttpResponseBadRequest('No Deliver exists with that key (%r)' %
+                                       deliver_id)    
+  
+
+  offers = create_offer_query(deliver).fetch(100)
+
+  return respond(request,users.GetCurrentUser(), 'listoffers', { 'offers' : offers })  
+
+
+def create_offer_query(deliver):
+  return db.GqlQuery("SELECT * "
+                                    " FROM DeliverOffer "
+                                    " WHERE deliver_fee = :1 ",
+                                    deliver )
+def confirmOffer(request):
+  if request.method != 'POST':
+    return HttpResponseBadRequest('Only post is allowed')
+
+  offer_id = int(request.POST.get('offerId', 0))
+  offer = DeliverOffer.get(db.Key.from_path(DeliverOffer.kind(), offer_id))
+
+  if offer is None:
+    return HttpResponseBadRequest('This offer does not exists: %r' % offer_id)
+
+  #running operations in a transaction
+  apply_confirm(offer.key())
+  
+  return HttpResponse("Success")
+
+#@db.transactional(xg=True)
+def apply_confirm(key):
+  offer = db.get(key)
+  offer.state = 'Aceito'
+  
+  #these are the other offers, so we want to set them as Rejected
+  otherOffers = db.GqlQuery("SELECT * FROM DeliverOffer WHERE deliver_fee = :1", offer.deliver_fee).fetch(100)
+
+  logging.debug("Other offers are: %s" % str(otherOffers) )
+
+  for obj in otherOffers:
+    if obj.key() is not key:
+      obj.state = 'Rejeitado'
+      obj.put()
+
+  offer.deliver_fee.state='Em andamento'
+  offer.deliver_fee.put()
+
+  offer.put()
+
+def welcome(request):
+  app_user = get_app_user()
+  user = users.GetCurrentUser()
+
+  if app_user is None:
     return http.HttpResponseRedirect('/app/editUser')
   else:
     return respond(request, user, 'welcome')
@@ -177,4 +253,4 @@ def get_app_user():
                           "WHERE real_user = :1 ",
                           user )
 
-  return q.fetch(1)
+  return q.get()
