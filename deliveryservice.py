@@ -50,6 +50,7 @@ class GetUpdateUserRequest(messages.Message):
     avg_price = messages.StringField(2)
     vehicle = messages.StringField(3)
     social_id = messages.StringField(4)
+    photo = messages.StringField(5)
 
 class DeliveryService(remote.Service):
     @remote.method(GetDeliveriesRequest, Deliveries)
@@ -128,6 +129,7 @@ class DeliveryService(remote.Service):
         app_user.last_status = 'Aguardando'
         app_user.avg_price = request.avg_price
         app_user.social_id = request.social_id
+        app_user.photo = request.photo
 
         app_user.put()
 

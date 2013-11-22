@@ -202,10 +202,10 @@ def deliverCoordinates(request):
                                        deliver_id)
 
   #ok, here we need to find the DeliveryOffer that is currently in progress, after the confirmation
-  q = db.GqlQuery("SELECT * FROM DeliverOffer WHERE deliver_fee = :1 AND state = 'Aceito' ")
+  q = db.GqlQuery("SELECT * FROM DeliverOffer WHERE deliver_fee = :1 AND state = 'Aceito' ", deliver)
   offer = q.get()
 
-  return HttpResponse("{  }", content_type="application/jason")
+  return HttpResponse("{ 'src_lat' : %s, 'src_lgn': %s, 'des_lat' : %s, 'des_lgn' : %s, 'drv_lat' : %s, 'drv_lgn' : %s }" % ( deliver.source_lat, deliver.source_lng, deliver.dest_lat, deliver.dest_lng, offer.app_user.last_lat, offer.app_user.last_lng ), content_type="application/json")
 
 def create_offer_query(deliver):
   return db.GqlQuery("SELECT * "

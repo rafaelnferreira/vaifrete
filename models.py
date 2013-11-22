@@ -14,6 +14,7 @@ class AppUser(db.Model):
   social_id = db.StringProperty()
   name = db.StringProperty()
   phone = db.StringProperty()
+  photo = db.StringProperty()
 
 class DeliverFee(db.Model):
 	source_address = db.StringProperty()
