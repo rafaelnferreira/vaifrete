@@ -12,6 +12,8 @@ class AppUser(db.Model):
   last_lng = db.StringProperty()
   avg_price = db.StringProperty()
   social_id = db.StringProperty()
+  name = db.StringProperty()
+  phone = db.StringProperty()
 
 class DeliverFee(db.Model):
 	source_address = db.StringProperty()
