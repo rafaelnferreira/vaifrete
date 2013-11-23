@@ -1,4 +1,12 @@
-<table class="table table-striped">    
+<table class="table table-striped">  
+<tr>
+    <th>Nº do Pedido</th>
+    <th>Endereço para entrega</th>
+    <th>Detalhes</th>
+    <th class="text-right">Status</th>
+
+</tr>
+ 
 {%for deliver in deliveries%}
     <tr>
     	<td>{{deliver.key.id}} </td>

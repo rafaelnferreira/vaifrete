@@ -1,182 +1,143 @@
-<html>
-  <head>
-    <title>Vai Frete</title>
-    <link href="../css/bootstrap.css" rel="stylesheet">
-    <link href="../css/starter-template.css" rel="stylesheet">
+<!doctype html>
+<html lang="pt-br">
+<meta charset=utf-8>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 
-    <!-- onLoad Modal-->
-    <script type="text/javascript">
-        $(window).load(function(){
-            $('#ModalCadastro').modal('show');
-        });
+
+  <script type="text/javascript" src="/js/jquery.js"></script>
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+  <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/js/jquery.backstretch.min.js"></script>
+  <link href="/css/bootstrap.css" rel="stylesheet">
+
+  <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+ <script type="text/javascript">
+     $(window).load(function(){
+
+      $('#myModal').modal('show');
+
+     });
+ </script>
+
+    <!--
+    Include the maps javascript with sensor=true because this code is using a
+    sensor (a GPS locator) to determine the user's location.
+    See: https://developers.google.com/maps/documentation/javascript/tutorial#Loading_the_Maps_API
+    -->
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+
+    <script>
+// Note: This example requires that you consent to location sharing when
+// prompted by your browser. If you see a blank space instead of the map, this
+// is probably because you have denied permission for location sharing.
+
+var map;
+
+function initialize() {
+  var mapOptions = {
+    zoom: 16
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+
+  // Try HTML5 geolocation
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+
+      var infowindow = new google.maps.InfoWindow({
+        map: map,
+        position: pos,
+        content: ''
+      });
+
+      map.setCenter(pos);
+    }, function() {
+      handleNoGeolocation(true);
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleNoGeolocation(false);
+  }
+}
+
+function handleNoGeolocation(errorFlag) {
+  if (errorFlag) {
+    var content = 'Error: The Geolocation service failed.';
+  } else {
+    var content = 'Error: Your browser doesn\'t support geolocation.';
+  }
+
+  var options = {
+    map: map,
+    position: new google.maps.LatLng(60, 105),
+    content: content
+  };
+
+  var infowindow = new google.maps.InfoWindow(options);
+  map.setCenter(options.position);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
     </script>
-    <!-- end onLoad Modal-->
-
+  </head>
 
   </head>
 
 
- <body>
+ <body>    
 
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="#">Vai Frete</a>
         </div>
-        <div class="collapse navbar-collapse">
+        <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Seu cadastro</a></li>
-            
+            <li class="active"><a href="{%url views.login %}">Login</a></li>           
+
           </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-
-    <div class="container">
-
-
-
-    <div class="row">
-      <div class="col-xs-12 col-sm-6 col-md-8"><image src="../images/mapatemplate.png" /></div>
-      <div class="col-xs-6 col-md-4">
-          <img src="../images/user.png">
-          <h3>Jose Beltrano</h3>
-          <h4><strong>moto</strong></h4>
-          <p>Tel.: (11) 2134.1234</p>
-
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="table-responsive">
-      <table class="table table-striped">
-      <tr>
-        <td>Fazer novo frete</td>
-      </tr>
-            <tr>
-        <td>ultimo frete....</td>
-      </tr>
-      </table>
-      </div>
-    </div>
-      <!-- Modal de Cadastro -->
-
-      <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#ModalCadastro">
-       botao
-      </button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="ModalCadastro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-              </div>
-              <div class="modal-body">
-                          <p>
-                            Efetue o  <a href="{%url views.login %}">login com sua conta do Google</a> para poder visualizar.
-                          </p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
-            </div><!-- /.modal-content -->
-          </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
-
-        <!-- Button trigger modal -->
-        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-          Launch demo modal
-        </button>
-
-        <!-- Modal -->
-        <p><a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Cadastre-se aqui! &raquo;</a></p>
-          </div>
+      
         
-        <!-- Janela Modal de Cadastro -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Cadastro de novo usuário</h4>
-              </div>
-              <div class="modal-body">
-                ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Documento sem título</title>
-</head>
-
-<body>
-<form action="/v5/index.php?" method="post" name="form1" id="form1">
-  <table align="center">
-    <tr valign="baseline">
-      <td nowrap="nowrap" align="right">Nome de usuario:</td>
-      <td><input type="text" name="usuario" value="" size="32" /></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap="nowrap" align="right">Email:</td>
-      <td><input type="text" name="email" value="" size="32" /></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap="nowrap" align="right">Senha:</td>
-      <td><input type="text" name="senha" value="" size="32" /></td>
-    </tr>
-    <tr valign="baseline">
-      <td nowrap="nowrap" align="right">&nbsp;</td>
-      <td><input type="submit" class="btn btn-primary" value="Inserir registro" /></td>
-    </tr>
-  </table>
-  <input type="hidden" name="idusuario" value="" />
-  <input type="hidden" name="tipo" value="" />
-  <input type="hidden" name="tipo_idtipo" value="2" />
-  <input type="hidden" name="MM_insert" value="form1" />
-</form>
-<p>&nbsp;</p>
-</body>
-</html>                
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-              </div>
-            </div>
-            <!-- /.modal-content -->
-          </div>
-          <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
-        <!-- Fim da Janela Modal de Cadastro -->
-
-    </div><!-- /.container -->
-
-
-
-
-    
-
-
-
-
-
-
-
+          
       
-      
+        </div><!--/.navbar-collapse -->
+      </div>
     </div>
-    <script src="http://www.fichamento.org/v5/js/bootstrap.min.js"></script>
-    
-    <script src="https://code.jquery.com/jquery.js"></script>
+
+<div id="myModal" tabindex="-1" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-body text-center">
+       <p><div class="jumbotron2">
+          <div><img src="/images/logo.png"></div>
+          <h1>Cadastre-se</h1>
+          <h3>Utilize sua conta do Google</h3>
+          <br />
+          <p><a href="{%url views.login %}" class="btn btn-primary btn-lg" role="button">Clique para login</a></p>
+        </div> </p>
+       </div>
+      
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div id="map-canvas"></div> 
+         
   </body>
 </html>
