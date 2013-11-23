@@ -15,6 +15,7 @@ class AppUser(db.Model):
   name = db.StringProperty()
   phone = db.StringProperty()
   photo = db.StringProperty()
+  request_datetime = db.DateTimeProperty(auto_now=True)
 
 class DeliverFee(db.Model):
 	source_address = db.StringProperty()

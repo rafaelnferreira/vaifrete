@@ -36,4 +36,4 @@ class DeliverFeeForm(djangoforms.ModelForm):
 	item = forms.TypedChoiceField(choices=PackageTypes, initial='Envelope [menos de 1kg]')
 	class Meta:
 		model = DeliverFee
-		exclude = ['dest_lng','dest_lat', 'source_lat', 'source_lng','request_user', 'item', 'request_date_time', 'closed', 'state']
+		exclude = ['dest_lng','dest_lat', 'source_lat', 'source_lng','request_user', 'item', 'request_date_time', 'closed', 'state', 'request_datetime']
