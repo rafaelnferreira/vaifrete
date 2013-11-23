@@ -173,9 +173,10 @@ def listDeliveries(request):
 
   q =  db.GqlQuery("SELECT * "
                           "FROM DeliverFee "
-                          "WHERE request_user = :1 ",
+                          "WHERE request_user = :1 order by request_date_time desc",
                           user )
 
+  
   deliveries = q.fetch(100)
 
   for deliver in deliveries:
