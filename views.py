@@ -203,6 +203,20 @@ def listOffers(request):
 
   return respond(request,users.GetCurrentUser(), 'listoffers', { 'offers' : offers })  
 
+def deliverInfo(request):
+  deliver_id = int(request.GET.get('deliverId', 0))
+  deliver = DeliverFee.get(db.Key.from_path(DeliverFee.kind(), deliver_id))
+  
+  if deliver is None:
+    return http.HttpResponseBadRequest('No Deliver exists with that key (%r)' %
+                                       deliver_id)
+
+  #ok, here we need to find the DeliveryOffer that is currently in progress, after the confirmation
+  q = db.GqlQuery("SELECT * FROM DeliverOffer WHERE deliver_fee = :1 AND state = 'Aceito' ", deliver)
+  offer = q.get()
+
+  return respond(request, users.GetCurrentUser(), 'delivery', { 'delivery' : offer })
+
 def deliverCoordinates(request):
   deliver_id = int(request.GET.get('deliverId', 0))
   deliver = DeliverFee.get(db.Key.from_path(DeliverFee.kind(), deliver_id))
