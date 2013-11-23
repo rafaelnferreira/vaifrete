@@ -10,6 +10,17 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: DeliverFee
+  properties:
+  - name: request_user
+  - name: request_date_time
+
+- kind: DeliverFee
+  properties:
+  - name: request_user
+  - name: request_date_time
+    direction: desc
+
 - kind: DeliverOffer
   properties:
   - name: deliver_fee
