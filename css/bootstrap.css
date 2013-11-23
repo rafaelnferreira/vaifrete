@@ -5277,7 +5277,7 @@ a.list-group-item.active > .badge,
   margin-left: 3px;
 }
 
-.jumbotron {
+/*.jumbotron {
   padding: 30px;
   margin-bottom: 30px;
   font-size: 21px;
@@ -5285,17 +5285,32 @@ a.list-group-item.active > .badge,
   line-height: 2.1428571435;
   color: inherit;
   background-color: #eeeeee;  
-  
 
-}
+} */
+.jumbotron {
+     position: relative;
+     background: url("/images/fundo.jpg");
+     padding: 5px;
+     margin-bottom: 5px;
+     font-size: 10px;
+     font-weight: 200;
+     line-height: 2.1428571435;
+ }
 
-.jumbotron2 {
-  padding: 30px;
-  margin-bottom: 30px;
-  font-size: 21px;
-  font-weight: 200;
-  line-height: 2.1428571435;
-  background-image: "/images/fundo.jpg";
+.jumbotron:after {
+     content:"";
+     background: url("/images/fundo.jpg");
+     opacity: 0.2;
+     top: 0;
+     left: 0;
+     bottom: 0;
+     right: 0;
+     position: absolute;
+     z-index: -1;
+ }
+
+.fundomodal {
+    background: url("/images/fundo.jpg");
 }
 
 
