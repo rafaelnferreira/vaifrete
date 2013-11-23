@@ -1,31 +1,69 @@
 {%extends "template.html"%}
 {%block body%}
 
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyAom9Y_NulAT3FThzdwDrHg2CTLFS3fODA"></script>
+    <script type="text/javascript" src="/js/map.js"></script>
+    <script type="text/javascript" src="/js/jquery.timer.js"></script>
+
     <!-- onLoad Modal-->
     <script type="text/javascript">
-        $(window).load(function(){
-          //$('#ModalCadastro').modal('show');
 
+        function updateModalOffer(deliverId){
+          $.get('listOffers?deliverId='+deliverId, function(data){
+                  $('#listOffers').html(data);           
+              });
+        }
+
+        function applyConfirm(offerId){
+            $.post("confirmOffer", { offerId: offerId })
+        }
+
+        $(window).load(function(){
             $('#btnRefresh').click(function(){  
                  $.get('listDeliveries', function(data){
-
                   $('#deliveryTable').html(data);           
               });
             });
 
             $('#btnNewFrete').click(function(){  
                  $.get('createDeliverFee', function(data){
-
                   $('#modal-content').html(data);           
               });
             });
-        
+            
+            var requestDeliveries = function(){
+                $.get('listDeliveries', function(data){
+                  $('#deliveryTable').html(data);           
+              });
+            }
+
+            var timer = $.timer(requestDeliveries);
+
+            timer.set({ time : 10000, autostart : true });
+
+            requestDeliveries();
+
         });
 
     </script>
 
 
+
+  <style>
+      #map-canvas {
+        height: 100% !important;
+        min-width: 400px;
+        min-height: 400px;
+        margin: 0px;
+        padding: 0px;
+        width: 100% !important;
+        display: block;
+      }
+    </style>
+
+
   </head>
+
 
 
  <body>
@@ -37,16 +75,19 @@
 
 
     <div class="row">
-      <div class="col-xs-12 col-sm-6 col-md-8"><image src="../images/mapatemplate.png" /></div>
+      
+      <div class="col-xs-12 col-sm-6 col-md-8" style="position: relative;">
+        <div id="map-canvas" ></div>
+      </div>
+      
       <div class="col-xs-6 col-md-4 text-center">
 
           <img src="../images/user.png">
           <h3>Jose Beltrano</h3>
           <h4><strong>moto</strong></h4>
           <p>Tel.: (11) 2134.1234</p>
-          <button type="button" class="btn btn-danger" id="btnRefresh">Refresh</button>
-          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#Oferta" id="btnNewOffer">Profissionais disponíveis</button> 
-
+          <!--<button type="button" class="btn btn-danger" id="btnRefresh">Refresh</button>-->
+          <!--<button type="button" class="btn btn-success" data-toggle="modal" data-target="#Oferta" id="btnNewOffer">Profissionais disponíveis</button>--> 
       </div>
     </div>
     <div class="row">
@@ -84,6 +125,7 @@
 
 
                           
+                          <!--                          
                           <table class="table table-condensed">    
                               
                               <tr>
@@ -106,6 +148,7 @@
 
                           
                           </table>
+                        -->
 
                       </div>
                           

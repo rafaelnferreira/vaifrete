@@ -179,10 +179,14 @@ def listDeliveries(request):
   deliveries = q.fetch(100)
 
   for deliver in deliveries:
+    logging.debug('Deliver state is %s' % deliver.state)
     #we get a count of requests that have been made to this guy...
-    if deliver.state is 'Pendente':
+    if deliver.state == 'Pendente':
       innerQuery = create_offer_query(deliver)
-      deliver.offers = innerQuery.count()
+      c = innerQuery.count()
+      deliver.offers = c
+      logging.debug('Number of offers: %r' % c)
+
 
   return respond(request,user, 'listdeliveries', { 'deliveries' : deliveries })
 
@@ -232,6 +236,8 @@ def confirmOffer(request):
 
   offer_id = int(request.POST.get('offerId', 0))
   offer = DeliverOffer.get(db.Key.from_path(DeliverOffer.kind(), offer_id))
+
+  logging.debug('Confirming %r' % offer_id)
 
   if offer is None:
     return HttpResponseBadRequest('This offer does not exists: %r' % offer_id)

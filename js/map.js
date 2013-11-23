@@ -5,7 +5,7 @@
 
 function initialize() {
   var mapOptions = {
-    zoom: 6
+    zoom: 12
   };
   map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
@@ -19,7 +19,7 @@ function initialize() {
       var infowindow = new google.maps.InfoWindow({
         map: map,
         position: pos,
-        content: 'Location found using HTML5.'
+        content: 'Você está aqui!'
       });
 
       map.setCenter(pos);
@@ -85,9 +85,24 @@ function deleteMarkers() {
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
-//Binding to the button here
+
+function updateMap(deliverId){
+  //var timer = $.timer(/*$('#btnRefresh').click(*/function(){  
+  $.get('deliverCoordinates?deliverId='+deliverId, function(data){
+      console.log(data);
+      deleteMarkers();
+      addMarker(new google.maps.LatLng(data.src_lat, data.src_lgn), "http://www.google.com/intl/en_us/mapfiles/ms/micons/green-dot.png");
+      addMarker(new google.maps.LatLng(data.des_lat, data.des_lgn), "http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png");
+      addMarker(new google.maps.LatLng(data.drv_lat, data.drv_lgn), "http://www.google.com/intl/en_us/mapfiles/ms/micons/red-dot.png");
+      setAllMap(map);
+  }).always(function() {
+    console.log('finished request');
+  });
+}
+
+/*
  $(window).load(function(){
-  var timer = $.timer(/*$('#btnRefresh').click(*/function(){  
+  var timer = $.timer(/*$('#btnRefresh').click(function(){  
       $.get('deliverCoordinates?deliverId=5066549580791808', function(data){
         console.log(data);
         deleteMarkers();
@@ -102,4 +117,4 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
   timer.set({ time : 10000, autostart : true });
 
-});   
+});   */
