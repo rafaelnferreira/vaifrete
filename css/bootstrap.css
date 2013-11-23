@@ -2386,6 +2386,14 @@ fieldset[disabled] .btn-default.active {
   border-color: #357ebd;
 }
 
+.btn-black {
+  color: #ffffff;
+  background-color: #000000;
+  border-color: #000000;
+}
+
+
+
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active,
@@ -5287,6 +5295,36 @@ a.list-group-item.active > .badge,
   background-color: #eeeeee;  
 
 } */
+
+/*
+.modal-body {
+    position: relative;
+    overflow-y: auto;
+    max-height: 400px;
+    padding: 15px;
+}
+*/
+
+
+
+.autoModal.modal .modal-body{
+    max-height: 100%;
+    max-width: :600px;
+    overflow-y: auto;
+}
+
+.usuario {
+
+  position: relative;
+     background: none;
+     padding: 5px;
+     margin-bottom: 5px;
+     font-size: 20px;
+     font-weight: 200;
+     line-height: 2.1428571435;
+
+}
+
 .jumbotron {
      position: relative;
      background: url("/images/fundo.jpg");
@@ -5296,6 +5334,7 @@ a.list-group-item.active > .badge,
      font-weight: 200;
      line-height: 2.1428571435;
  }
+
 
 .jumbotron:after {
      content:"";
@@ -5308,9 +5347,12 @@ a.list-group-item.active > .badge,
      position: absolute;
      z-index: -1;
  }
-
-.fundomodal {
-    background: url("/images/fundo.jpg");
+#middleout { position:relative }
+#middle { 
+  position:absolute; 
+  top:50%; 
+  height:10em; 
+  margin-top:-5em 
 }
 
 

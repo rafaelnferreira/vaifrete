@@ -1,5 +1,6 @@
-<table class="table table-striped">  
+<table class="table table-striped table-hover" style="margin-top: 15px;">  
 <tr>
+    <th>Data do Pedido</th>
     <th>Nº do Pedido</th>
     <th>Endereço para entrega</th>
     <th>Detalhes</th>
@@ -11,21 +12,32 @@
 
 
     <tr>
+        <td>{{deliver.request_date_time}}</td>
     	<td>{{deliver.key.id}} </td>
         <td>{{deliver.destination_address|escape}}</td>
         <td>{{deliver.item|escape}}</td>
+
         
         {% if deliver.state == 'Pendente' and deliver.offers > 0 %}
       		<td><p class="text-right">
-                <button type="button" data-toggle="modal" data-target="#Oferta" id="btnNewOffer" class="btn btn-danger" onClick="updateModalOffer({{deliver.key.id}})"><a href="#">Ofertas {{deliver.offers}}</a>
+                <button type="button" data-toggle="modal" data-target="#Oferta" id="btnNewOffer" class="btn btn-info" onClick="updateModalOffer({{deliver.key.id}})"><a class="white" href="#" >Ofertas recebidas: {{deliver.offers}}</a>
                 </button>
             </p></td>
         {% elif deliver.state == 'Pendente' %}
-            <td><p class="text-right"><button type="button" class="btn btn-danger">Aguardando...</button></p></td>
+            <td><p class="text-right"><button type="button" class="btn btn-warning">Aguardando orçamento</button></p></td>
+        {% elif deliver.state == 'Entregue' %}
+            <td><p class="text-right"><button type="button" class="btn btn-success">Entregue a 10 min.</button></p></td>
     	{% else %}
-      		<td><p class="text-right"><button type="button" class="btn btn-waiting" onClick="updateMap({{deliver.key.id}});updateDeliverInfo({{deliver.key.id}})"><a href="#">Ver no Mapa</a></button></p></td>
+      		<td><p class="text-right"><button type="button" class="btn btn-primary" onClick="updateMap({{deliver.key.id}});updateDeliverInfo({{deliver.key.id}})"><a class="white" href="#">Em trânsito - Ver no mapa</a></button></p></td>
     	{% endif %}
     </tr>
 
 {%endfor%}
+    <tr>
+            <td>Nov. 22, 2013, 4:30 p.m.</td>
+            <td>5066549580791808</td>
+            <td>av paulista 200, sao paulo</td>
+            <td>documentos</td>
+            <td><p class="text-right"><button type="button" class="btn btn-success">Entregue há 10 min.</button></p></td>
+    </tr>
 </table>

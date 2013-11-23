@@ -1,6 +1,18 @@
 <script type="text/javascript" src="/js/jquery.js"></script>
 
-<table>    
+<div class="table-responsive">
+
+<table class="table table-striped">    
+
+    <tr>
+        
+        <th><h5><strong>Entregador</strong></h5></th>
+        <th><h5><strong>Proposta</strong></h5></th>       
+        <th><h5><strong>Última posição</strong></h5></th>
+        <th><h5><strong>Distância de mim</strong></h5></th>
+        <th><h5><strong></strong></h5></th>
+    </tr>
+
 {%for offer in offers%}
     
     <script type="text/javascript">
@@ -16,14 +28,18 @@
     </script>
 
     <tr>
-    	<td>{{offer.key.id}} </td>
-        <td>{{offer.offer_info|escape}}</td>
-        <td>{{offer.app_user.real_user.nickname|escape}}</td>
-        <td>{{offer.app_user.last_position|escape}}</td>
-        <td>{{offer.state|escape}}</td>
-        <td><img id="{{offer.key.id}}" /></td>
-        <td><button type="button" class="btn2 btn-success " data-dismiss="modal" id="btnConfirm" onClick="applyConfirm({{offer.key.id}})">Aceitar</button>  </td>
+    	
+        <td><h6><strong>João da Silva</strong></h6></td>
+        <td><h5>{{offer.offer_info|escape}}</h5></td>
+        <!--<td><h5>{{offer.app_user.real_user.nickname|escape}}</h5></td>-->
+        <!--<td>{{offer.app_user.last_position|escape}}</td>-->
+        
+        <!--<td>{{offer.state|escape}}</td>-->
+        <td><img width="150px" id="{{offer.key.id}}" /></td>
+        <td>10km</td>
+        <td><button type="button" class="btn2 btn-success" data-dismiss="modal" id="btnConfirm" onClick="applyConfirm({{offer.key.id}})">Aceitar</button>  </td>
     </tr>
 
 {%endfor%}
 </table>
+</div>

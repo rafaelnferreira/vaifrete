@@ -25,6 +25,9 @@
         }
 
         $(window).load(function(){
+
+           /* $('#example').tooltip(options); */
+
             $('#btnRefresh').click(function(){  
                  $.get('listDeliveries', function(data){
                   $('#deliveryTable').html(data);           
@@ -78,33 +81,41 @@
 
    <div class="container">
 
+    <div class="row">
 
+      <div class="col-xs-12 col-sm-6 col-md-8" style="position: relative;"><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#ModalFrete" id="btnNewFrete">Solicitar nova entrega</button> </div>
+      <div class="col-xs-6 col-md-4 text-center"></div>
+      
+    </div>
 
     <div class="row">
       
-      <div class="col-xs-12 col-sm-6 col-md-8" style="position: relative;">
+      <div class="col-xs-12 col-sm-6 col-md-8" style="position: relative; margin-top:15px;">
         <div id="map-canvas" ></div>
       </div>
       
       <div class="col-xs-6 col-md-4 text-center">
 
-        <div id="deliver-info"></div>
+        <div class="usuario" id="deliver-info"></div>
+        
+
 
       </div>
     </div>
-    <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-8">
 
-    <p class="text-center">
-    <button type="button" class="btn2 btn-success " data-toggle="modal" data-target="#ModalFrete" id="btnNewFrete">Fazer novo frete</button>  
-    </p>
+    <div class="row">
+
+      <div class="col-xs-12 col-sm-6 col-md-8"></div>
+      <div class="col-xs-6 col-md-4"></div>
+
     </div>
-    <div class="col-xs-6 col-md-4"></div>
 
     <div class="container">
-    <div class="row">    
-      <div class="table-responsive" id="deliveryTable"></div>
-    </div>
+
+      <div class="row">    
+        <div class="table-responsive" id="deliveryTable"></div>
+      </div>
+
     </div>
 
       <!-- Modal de Cadastro -->

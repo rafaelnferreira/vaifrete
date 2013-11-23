@@ -11,6 +11,7 @@
   <script type="text/javascript" src="/js/bootstrap.min.js"></script>
   <link href="/css/bootstrap.css" rel="stylesheet">
   <link href="/css/starter-template.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/bootswatch.min.css">
   <title>Vai Frete</title> 
   
   {%block meta%}{%endblock%}  
@@ -26,24 +27,19 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Vai Frete</a>
+          <a class="navbar-brand" href="#"><img src="/images/smalllogo.png" /></a>
         </div>
-        <div class="navbar-collapse collapse">
+        <div class="navbar-collapse collapse navbar-right">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Editar cadastro</a></li>           
-
-          </ul>
-      
-        
-          <form name="login" class="navbar-form navbar-right" ACTION="<?php echo $loginFormAction; ?>" METHOD="POST">
-            <div class="form-group white">
-              Bem-vindo {{ userLogged.nickname }}
-            </div>
-            <div class="form-group">
-              - <a class="white" href="{%url views.logout %}">Sair</a>
-            </div>
+            <li><a href="#">Olá, {{ userLogged.nickname }}</a></li>
+            <li><a href="#">Editar cadastro </a></li>
+            <li><a href="{%url views.logout %}">Sair</a></li>
             
-          </form>
+        </ul>
+      
+        <!-- {{delivery.app_user.name}} -->
+
+      
       
         </div><!--/.navbar-collapse -->
       </div>
