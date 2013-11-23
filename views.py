@@ -69,6 +69,12 @@ def index(request):
   if users.GetCurrentUser() is None:
     return render_to_response('index.html')
   else:
+    return HttpResponseRedirect('/app/welcome') 
+
+def map(request):
+  if users.GetCurrentUser() is not None:
+    return render_to_response('map.html')
+  else:
     return HttpResponseRedirect('/app/welcome')  
 
 def login(request):
@@ -205,7 +211,15 @@ def deliverCoordinates(request):
   q = db.GqlQuery("SELECT * FROM DeliverOffer WHERE deliver_fee = :1 AND state = 'Aceito' ", deliver)
   offer = q.get()
 
-  return HttpResponse("{ 'src_lat' : %s, 'src_lgn': %s, 'des_lat' : %s, 'des_lgn' : %s, 'drv_lat' : %s, 'drv_lgn' : %s }" % ( deliver.source_lat, deliver.source_lng, deliver.dest_lat, deliver.dest_lng, offer.app_user.last_lat, offer.app_user.last_lng ), content_type="application/json")
+  response_data = {}
+  response_data['src_lat'] = float(deliver.source_lat)
+  response_data['src_lgn'] = float(deliver.source_lng)
+  response_data['des_lat'] = float(deliver.dest_lat)
+  response_data['dest_lgn'] = float(deliver.dest_lng)
+  response_data['drv_lat'] = float(offer.app_user.last_lat)
+  response_data['drv_lgn'] = float(offer.app_user.last_lng)
+
+  return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 def create_offer_query(deliver):
   return db.GqlQuery("SELECT * "
