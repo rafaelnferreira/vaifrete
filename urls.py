@@ -19,11 +19,9 @@ from django.conf.urls import *
 
 urlpatterns = patterns('',
     (r'^$', 'views.index'),
-    #(r'^online$', 'views.online'),
     (r'^login$', 'views.login'),
     (r'^app/editUser$', 'views.editUser'),
     (r'^app/createDeliverFee$', 'views.createDeliverFee'),
-    #(r'^player/(?P<path>.*)$', 'views.player'),
     (r'^app/welcome$', 'views.welcome'),
     (r'^app/listDeliveries$', 'views.listDeliveries'),
     (r'^app/listOffers', 'views.listOffers'),
@@ -31,9 +29,5 @@ urlpatterns = patterns('',
     (r'^app/deliverCoordinates', 'views.deliverCoordinates'),
     (r'^app/deliverInfo', 'views.deliverInfo'),
     (r'^app/map', 'views.map'),
-    #(r'^admin/cameras$', 'views.listCam'),
-    #(r'^admin/camera/editar/(\d+)$', 'views.editCamera'),
-    #(r'^admin/camera/editar$', 'views.editCamera'),
-    #(r'^admin/camera/apagar/(\d+)$', 'views.delCamera'),
     (r'^logout$', 'views.logout')
 )

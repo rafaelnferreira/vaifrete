@@ -51,6 +51,8 @@ class GetUpdateUserRequest(messages.Message):
     vehicle = messages.StringField(3)
     social_id = messages.StringField(4)
     photo = messages.StringField(5)
+    name = messages.StringField(6)
+    phone = messages.StringField(7)
 
 class DeliveryService(remote.Service):
     @remote.method(GetDeliveriesRequest, Deliveries)
@@ -79,7 +81,6 @@ class DeliveryService(remote.Service):
         logging.debug('Deliver: %s, User %s' % (str(deliver), str(app_user)))
 
         deliver_offer = DeliverOffer(deliver_fee=deliver, app_user=app_user, offer_info=request.offer_info, state='Made')
-        #deliver_offer.save()
         deliver_offer.put()
 
         return message_types.VoidMessage()
@@ -105,7 +106,7 @@ class DeliveryService(remote.Service):
         query = DeliverOffer.all()
   
         #if request.user:
-            #query.filter('date <=', when)
+        query.filter('user_email =', request.user)
   
         offers = []
         for offer_model in query.fetch(request.limit):
@@ -130,6 +131,8 @@ class DeliveryService(remote.Service):
         app_user.avg_price = request.avg_price
         app_user.social_id = request.social_id
         app_user.photo = request.photo
+        app_user.name = request.name
+        app_user.phone = request.phone
 
         app_user.put()
 
